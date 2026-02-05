@@ -1,6 +1,8 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/HlibBondarev/Board-Backend.git
+	branch = dev
 [submodule "frontend"]
 	path = frontend
 	url = https://github.com/HlibBondarev/Board-Frontend.git
+	branch = dev
