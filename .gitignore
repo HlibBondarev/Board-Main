@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# IDE specific files
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
+
+# Windows
+Thumbs.db
+Desktop.ini
