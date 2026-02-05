@@ -1,0 +1,36 @@
+name: Sync Submodules
+on:
+  repository_dispatch:
+    types: [sub-module-update] # Wait for event-type
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Main (with PAT token for permissions)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.MAIN_REPO_SYNC_TOKEN }} # Use PAT
+          submodules: true
+          fetch-depth: 0
+
+      - name: Configure Git User
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          
+      - name: Pull Submodule Changes
+        run: |
+          # Updates all submodules to the latest commits specified in the .gitmodules branch
+          git submodule update --remote --recursive
+          
+      - name: Commit and Push Updates
+        run: |
+          git add .
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            # Automatic commit that shows exactly what was updated
+            git commit -m "auto: update submodule -> ${{ github.event.client_payload.module }}"
+            git push origin dev
+          fi
